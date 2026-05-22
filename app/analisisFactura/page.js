@@ -14,6 +14,12 @@ import {
   Chip,
   Paper,
   IconButton,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
 } from "@mui/material";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -25,6 +31,7 @@ import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import ErrorIcon from "@mui/icons-material/Error";
 import DateRangeIcon from "@mui/icons-material/DateRange";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 
 export default function AnalizarFacturaPage() {
   const [file, setFile] = useState(null);
@@ -394,6 +401,45 @@ export default function AnalizarFacturaPage() {
                           )}
                         </Box>
                       </Grid>
+
+                      {/* Detalles de Ítems */}
+                      {extractedData.items && extractedData.items.length > 0 && (
+                        <Grid item size={{ xs: 12 }}>
+                          <Box sx={{ p: 3, borderRadius: 3, border: "1px solid #e2e8f0", bgcolor: "#ffffff" }}>
+                            <Box sx={{ display: "flex", alignItems: "center", mb: 2.5 }}>
+                              <Box sx={{ p: 0.8, borderRadius: 1.5, bgcolor: "#eff6ff", color: "#3b82f6", display: "flex", mr: 1.5 }}>
+                                <ShoppingCartIcon fontSize="small" />
+                              </Box>
+                              <Typography variant="h6" sx={{ color: "#0f172a", fontWeight: 800 }}>Detalle de Ítems</Typography>
+                            </Box>
+                            
+                            <TableContainer component={Paper} elevation={0} sx={{ border: "1px solid #f1f5f9" }}>
+                              <Table size="small">
+                                <TableHead sx={{ bgcolor: "#f8fafc" }}>
+                                  <TableRow>
+                                    <TableCell sx={{ fontWeight: 700, color: "#475569" }}>Descripción</TableCell>
+                                    <TableCell align="right" sx={{ fontWeight: 700, color: "#475569" }}>Cantidad</TableCell>
+                                    <TableCell align="right" sx={{ fontWeight: 700, color: "#475569" }}>Precio Unit.</TableCell>
+                                    <TableCell align="right" sx={{ fontWeight: 700, color: "#475569" }}>Total</TableCell>
+                                  </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                  {extractedData.items.map((item, index) => (
+                                    <TableRow key={index} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                                      <TableCell component="th" scope="row" sx={{ color: "#334155" }}>
+                                        {item.descripcion || "-"}
+                                      </TableCell>
+                                      <TableCell align="right" sx={{ color: "#334155" }}>{item.cantidad || "-"}</TableCell>
+                                      <TableCell align="right" sx={{ color: "#334155" }}>{item.precioUnitario || "-"}</TableCell>
+                                      <TableCell align="right" sx={{ fontWeight: 600, color: "#0f172a" }}>{item.precioTotal || "-"}</TableCell>
+                                    </TableRow>
+                                  ))}
+                                </TableBody>
+                              </Table>
+                            </TableContainer>
+                          </Box>
+                        </Grid>
+                      )}
 
                     </Grid>
                   </CardContent>

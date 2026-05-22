@@ -58,7 +58,7 @@ export async function POST(request) {
                 mimeType: mimeType,
               },
             },
-            "Analiza la imagen. Primero determina si es una factura o recibo de pago válido. Si lo es, marca 'esFacturaValida' como true y extrae la información solicitada con precisión. Extrae los montos en Bolívares (Bs) y Dólares (USD) de manera separada, si ambos están presentes en la factura. Incluye el símbolo de la moneda en cada string. Si la factura solo posee una moneda, deja los campos de la otra vacíos. Si está presente, extrae la tasa de cambio. Las fechas deben estar en formato estricto YYYY-MM-DD."
+            "Analiza la imagen. Primero determina si es una factura o recibo de pago válido. Si lo es, marca 'esFacturaValida' como true y extrae la información solicitada con precisión. Extrae los montos en Bolívares (Bs) y Dólares (USD) de manera separada, si ambos están presentes en la factura. Incluye el símbolo de la moneda en cada string. Si la factura solo posee una moneda, deja los campos de la otra vacíos. Si está presente, extrae la tasa de cambio. Las fechas deben estar en formato estricto YYYY-MM-DD. Adicionalmente, extrae la lista de ítems detallados en la factura, incluyendo su descripción, cantidad, precio unitario y precio total."
           ],
           config: {
             responseMimeType: "application/json",
@@ -78,7 +78,20 @@ export async function POST(request) {
                 impuestosTotalesUsd: { type: Type.STRING, description: "Monto total de impuestos en Dólares" },
                 montoTotalBs: { type: Type.STRING, description: "Monto total a pagar en Bolívares" },
                 montoTotalUsd: { type: Type.STRING, description: "Monto total a pagar en Dólares" },
-                tasaDeCambio: { type: Type.STRING, description: "Tasa de cambio (ej. BCV, IGTF, etc.) reflejada en la factura, si aplica." }
+                tasaDeCambio: { type: Type.STRING, description: "Tasa de cambio (ej. BCV, IGTF, etc.) reflejada en la factura, si aplica." },
+                items: {
+                  type: Type.ARRAY,
+                  description: "Lista de ítems o productos detallados en la factura",
+                  items: {
+                    type: Type.OBJECT,
+                    properties: {
+                      descripcion: { type: Type.STRING, description: "Descripción del ítem, producto o servicio" },
+                      cantidad: { type: Type.NUMBER, description: "Cantidad del ítem" },
+                      precioUnitario: { type: Type.STRING, description: "Precio unitario del ítem (incluir símbolo de moneda si está presente)" },
+                      precioTotal: { type: Type.STRING, description: "Precio total del ítem (cantidad x precio unitario, incluir símbolo de moneda si está presente)" }
+                    }
+                  }
+                }
               }
             }
           }
