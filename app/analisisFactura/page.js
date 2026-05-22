@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import {
   Box,
   Container,
@@ -44,6 +44,15 @@ export default function AnalizarFacturaPage() {
   const [isDragging, setIsDragging] = useState(false);
 
   const fileInputRef = useRef(null);
+  const resultsRef = useRef(null);
+
+  useEffect(() => {
+    if (extractedData && resultsRef.current) {
+      setTimeout(() => {
+        resultsRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 150); // Pequeño retraso para asegurar que el DOM haya renderizado los componentes
+    }
+  }, [extractedData]);
 
   // Procesamiento del archivo (común para input y drag & drop)
   const processFile = (selectedFile) => {
@@ -230,7 +239,7 @@ export default function AnalizarFacturaPage() {
 
         {/* Resultados Extraídos */}
         {extractedData && (
-          <Box sx={{ animation: "fadeIn 0.5s ease-in-out" }}>
+          <Box ref={resultsRef} sx={{ animation: "fadeIn 0.5s ease-in-out", scrollMarginTop: "24px" }}>
             <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 4 }}>
               <Typography variant="h5" sx={{ fontWeight: 800, color: "#0f172a" }}>
                 Resultados de la Extracción
