@@ -140,9 +140,6 @@ export default function AnalizarFacturaPage() {
           <Typography variant="h4" sx={{ fontWeight: 900, color: "#0f172a", mb: 2, letterSpacing: "-1px" }}>
             Análisis de Facturas Inteligente
           </Typography>
-          <Typography variant="subtitle1" sx={{ color: "#64748b", maxWidth: "600px", mx: "auto", fontSize: "1.1rem" }}>
-            Sube tu factura en formato Imagen o PDF y deja que la IA extraiga los datos por ti.
-          </Typography>
         </Box>
 
         {/* Tarjeta de Carga de Archivo */}
@@ -207,7 +204,7 @@ export default function AnalizarFacturaPage() {
                     startIcon={loading ? <CircularProgress size={20} color="inherit" /> : <ReceiptIcon />}
                     sx={{ py: 1.5, px: 5, borderRadius: 8, fontWeight: 700, textTransform: "none", fontSize: "1.05rem", boxShadow: "0 8px 16px rgba(82, 22, 244, 0.25)" }}
                   >
-                    {loading ? "Analizando con IA..." : "Reintentar Extracción"}
+                    {loading ? "Analizando..." : "Reintentar Extracción"}
                   </Button>
                 </Box>
               )}
