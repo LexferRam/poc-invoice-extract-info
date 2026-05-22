@@ -58,7 +58,7 @@ export async function POST(request) {
                 mimeType: mimeType,
               },
             },
-            "Analiza la imagen. Primero determina si es una factura o recibo de pago válido. Si lo es, marca 'esFacturaValida' como true y extrae la información solicitada con precisión. Extrae los montos en Bolívares (Bs) y Dólares (USD) de manera separada, si ambos están presentes en la factura. Incluye el símbolo de la moneda en cada string. Si la factura solo posee una moneda, deja los campos de la otra vacíos. Si está presente, extrae la tasa de cambio. Las fechas deben estar en formato estricto YYYY-MM-DD. Adicionalmente, extrae la lista de ítems detallados en la factura, incluyendo su descripción, cantidad, precio unitario y precio total."
+            "Analiza la imagen. Primero determina si es una factura o recibo de pago válido. Si lo es, marca 'esFacturaValida' como true y extrae la información solicitada con precisión. Extrae los montos en Bolívares (Bs) y Dólares (USD) de manera separada, si ambos están presentes en la factura. Incluye el símbolo de la moneda en cada string. Si la factura solo posee una moneda, deja los campos de la otra vacíos. Si está presente, extrae la tasa de cambio. Las fechas deben estar en formato estricto YYYY-MM-DD. Extrae también la hora de emisión si se encuentra en el documento. Extrae la dirección completa del emisor si está disponible en el documento. Adicionalmente, extrae la lista de ítems detallados en la factura, incluyendo su descripción, cantidad, precio unitario y precio total."
           ],
           config: {
             responseMimeType: "application/json",
@@ -68,8 +68,10 @@ export async function POST(request) {
                 esFacturaValida: { type: Type.BOOLEAN, description: "¿Es la imagen una factura o recibo comercial válido?" },
                 numeroFactura: { type: Type.STRING, description: "El número único de identificación de la factura" },
                 fechaEmision: { type: Type.STRING, description: "Fecha de emisión de la factura en formato estricto YYYY-MM-DD" },
+                horaEmision: { type: Type.STRING, description: "Hora de emisión de la factura (ej. HH:MM AM/PM), si está disponible" },
                 emisorNombre: { type: Type.STRING, description: "Nombre o Razón Social de la empresa o persona que emite la factura" },
                 emisorDocumento: { type: Type.STRING, description: "Documento de identidad fiscal del emisor (ej. RIF, NIT, RUT o DNI)" },
+                emisorDireccion: { type: Type.STRING, description: "Dirección fiscal o física completa del emisor" },
                 receptorNombre: { type: Type.STRING, description: "Nombre o Razón Social del cliente al que se le emite la factura" },
                 receptorDocumento: { type: Type.STRING, description: "Documento de identidad fiscal del cliente o receptor" },
                 montoSubtotalBs: { type: Type.STRING, description: "Monto subtotal en Bolívares con su símbolo (ej. 'Bs. 150.00')" },

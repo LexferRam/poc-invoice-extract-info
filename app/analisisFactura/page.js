@@ -32,6 +32,7 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import ErrorIcon from "@mui/icons-material/Error";
 import DateRangeIcon from "@mui/icons-material/DateRange";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
 
 export default function AnalizarFacturaPage() {
   const [file, setFile] = useState(null);
@@ -259,9 +260,13 @@ export default function AnalizarFacturaPage() {
                       <Typography variant="caption" sx={{ color: "#94a3b8", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.5px" }}>Razón Social</Typography>
                       <Typography variant="body1" sx={{ fontWeight: 600, color: "#334155", mt: 0.5 }}>{extractedData.emisorNombre || "N/A"}</Typography>
                     </Box>
-                    <Box>
+                  <Box sx={{ mb: 2 }}>
                       <Typography variant="caption" sx={{ color: "#94a3b8", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.5px" }}>Documento (RIF/NIT)</Typography>
                       <Typography variant="body1" sx={{ fontWeight: 600, color: "#334155", mt: 0.5 }}>{extractedData.emisorDocumento || "N/A"}</Typography>
+                  </Box>
+                  <Box>
+                    <Typography variant="caption" sx={{ color: "#94a3b8", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.5px" }}>Dirección</Typography>
+                    <Typography variant="body1" sx={{ fontWeight: 600, color: "#334155", mt: 0.5 }}>{extractedData.emisorDireccion || "N/A"}</Typography>
                     </Box>
                   </CardContent>
                 </Card>
@@ -306,6 +311,16 @@ export default function AnalizarFacturaPage() {
                           <Typography variant="body2" sx={{ color: "#64748b", minWidth: 130, fontWeight: 500 }}>Fecha Emisión:</Typography>
                           <Typography variant="body1" sx={{ fontWeight: 700, color: "#0f172a" }}>{extractedData.fechaEmision || "No encontrada"}</Typography>
                         </Box>
+                        {extractedData.horaEmision && (
+                          <>
+                            <Divider sx={{ my: 1.5, borderStyle: "dashed" }} />
+                            <Box sx={{ display: "flex", alignItems: "center" }}>
+                              <AccessTimeIcon sx={{ color: "#cbd5e1", mr: 1.5 }} />
+                              <Typography variant="body2" sx={{ color: "#64748b", minWidth: 130, fontWeight: 500 }}>Hora Emisión:</Typography>
+                              <Typography variant="body1" sx={{ fontWeight: 700, color: "#0f172a" }}>{extractedData.horaEmision}</Typography>
+                            </Box>
+                          </>
+                        )}
                       </Grid>
 
                       <Grid item size={{ xs: 12, md: 12 }}>
