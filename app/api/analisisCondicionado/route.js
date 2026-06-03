@@ -11,7 +11,7 @@ export async function POST(request) {
     }
 
     const ai = new GoogleGenAI({ apiKey });
-    const modelName = 'gemini-2.5-flash-lite';
+    const modelName = 'gemini-3-flash-preview';
 
     const parts = [{ text: userInput }];
     
