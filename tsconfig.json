@@ -29,6 +29,6 @@
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts",
     "**/*.mts"
-  ],
+, "app/informeCondicionado/_components/MessageBubble.jsx", "app/informeCondicionado/_components/ChatWidget.jsx", "app/informeCondicionado/constants.js"  ],
   "exclude": ["node_modules"]
 }
