@@ -87,9 +87,10 @@ const ChatWidget = () => {
       if (file.type.startsWith('image/')) {
         try {
           const options = {
-            maxSizeMB: 1,
-            maxWidthOrHeight: 1920,
+            maxSizeMB: 0.25,
+            maxWidthOrHeight: 1024,
             useWebWorker: true,
+            initialQuality: 0.8,
           };
           const compressedFile = await imageCompression(file, options);
           const reader = new FileReader();
@@ -102,6 +103,12 @@ const ChatWidget = () => {
         }
       } else {
         // En caso de ser PDF u otro formato
+        const fileSizeMB = file.size / 1024 / 1024;
+        if (fileSizeMB > 2.5) {
+          alert("El archivo PDF es demasiado grande. Por favor, sube un documento menor a 2.5 MB para no exceder los límites del servidor.");
+          return;
+        }
+        
         const reader = new FileReader();
         reader.onloadend = () => {
           setAttachedImage(reader.result);
@@ -136,7 +143,12 @@ const ChatWidget = () => {
         canvasRef.current.toBlob(async (blob) => {
           if (blob) {
             try {
-              const options = { maxSizeMB: 1, maxWidthOrHeight: 1920, useWebWorker: true };
+              const options = { 
+                maxSizeMB: 0.25, 
+                maxWidthOrHeight: 1024, 
+                useWebWorker: true,
+                initialQuality: 0.8 
+              };
               const compressedFile = await imageCompression(blob, options);
               const reader = new FileReader();
               reader.onloadend = () => {
@@ -180,10 +192,8 @@ const ChatWidget = () => {
 
     const history = messages.map(msg => {
       const parts = [{ text: msg.content }];
-      if (msg.image) {
-        const mimeType = msg.image.split(';')[0].split(':')[1] || 'image/jpeg';
-        parts.push({ inlineData: { mimeType, data: msg.image.split(',')[1] } });
-      }
+      // Se elimina el envío de imágenes anteriores en el historial para evitar 
+      // el error FUNCTION_PAYLOAD_TOO_LARGE en Vercel tras varios mensajes.
       return {
         role: msg.role === MessageRole.USER ? 'user' : 'model',
         parts
