@@ -102,7 +102,7 @@ const ChatWidget = () => {
           console.error("Error al comprimir la imagen:", error);
         }
       } else {
-        // En caso de ser PDF u otro formato
+
         const fileSizeMB = file.size / 1024 / 1024;
         if (fileSizeMB > 2.5) {
           alert("El archivo PDF es demasiado grande. Por favor, sube un documento menor a 2.5 MB para no exceder los límites del servidor.");
