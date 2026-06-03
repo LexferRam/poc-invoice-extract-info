@@ -19,6 +19,7 @@ import {
 import { GeminiService } from '../services/geminiService';
 import { INITIAL_MESSAGE, MessageRole } from '../constants'; // Asumiendo MessageRole migrado aquí
 import MessageBubble from './MessageBubble';
+import imageCompression from 'browser-image-compression';
 
 // Animaciones personalizadas imitando Tailwind de forma nativa en MUI
 import { styled } from '@mui/material/styles';
@@ -80,14 +81,33 @@ const ChatWidget = () => {
     }
   }, [messages, isTyping, attachedImage]);
 
-  const handleImageSelect = (e) => {
+  const handleImageSelect = async (e) => {
     const file = e.target.files?.[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setAttachedImage(reader.result);
-      };
-      reader.readAsDataURL(file);
+      if (file.type.startsWith('image/')) {
+        try {
+          const options = {
+            maxSizeMB: 1,
+            maxWidthOrHeight: 1920,
+            useWebWorker: true,
+          };
+          const compressedFile = await imageCompression(file, options);
+          const reader = new FileReader();
+          reader.onloadend = () => {
+            setAttachedImage(reader.result);
+          };
+          reader.readAsDataURL(compressedFile);
+        } catch (error) {
+          console.error("Error al comprimir la imagen:", error);
+        }
+      } else {
+        // En caso de ser PDF u otro formato
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          setAttachedImage(reader.result);
+        };
+        reader.readAsDataURL(file);
+      }
     }
   };
 
@@ -112,9 +132,23 @@ const ChatWidget = () => {
         canvasRef.current.width = videoRef.current.videoWidth;
         canvasRef.current.height = videoRef.current.videoHeight;
         context.drawImage(videoRef.current, 0, 0);
-        const dataUrl = canvasRef.current.toDataURL('image/jpeg');
-        setAttachedImage(dataUrl);
-        stopCamera();
+        
+        canvasRef.current.toBlob(async (blob) => {
+          if (blob) {
+            try {
+              const options = { maxSizeMB: 1, maxWidthOrHeight: 1920, useWebWorker: true };
+              const compressedFile = await imageCompression(blob, options);
+              const reader = new FileReader();
+              reader.onloadend = () => {
+                setAttachedImage(reader.result);
+                stopCamera();
+              };
+              reader.readAsDataURL(compressedFile);
+            } catch (error) {
+              console.error("Error comprimiendo foto:", error);
+            }
+          }
+        }, 'image/jpeg', 0.9);
       }
     }
   };
