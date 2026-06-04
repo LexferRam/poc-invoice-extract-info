@@ -14,14 +14,16 @@ import {
   PhotoCamera as PhotoCameraIcon,
   Close as CloseIcon,
   Description as DescriptionIcon,
+  HealthAndSafety as HealthAndSafetyIcon
 } from '@mui/icons-material';
 import { GeminiService } from '../services/geminiService';
-import { INITIAL_MESSAGE, MessageRole } from '../constants';
+import { INITIAL_MESSAGE, MessageRole } from '../constants'; // Asumiendo MessageRole migrado aquí
 import MessageBubble from './MessageBubble';
 import imageCompression from 'browser-image-compression';
+
+// Animaciones personalizadas imitando Tailwind de forma nativa en MUI
 import { styled } from '@mui/material/styles';
 
-// Animaciones personalizadas
 const pulseAnimation = keyframes`
   0%, 100% { opacity: 1; }
   50% { opacity: .5; }
@@ -48,21 +50,6 @@ const BounceDot = styled('span')(({ delay }) => ({
   animation: `${bounceAnimation} 1s infinite`,
   animationDelay: delay || '0s',
 }));
-
-// Reemplazo del icono por el avatar de la imagen
-const AssistantAvatar = () => (
-  <Avatar 
-    alt="Asistente Virtual" 
-    src="/images/pimy.PNG" // Reemplaza esto con la ruta real a tu imagen
-    sx={{ 
-      width: 82, // Un poco más grande para el header
-      height: 82, 
-      border: '3px solid #fac960', // Un borde azul claro
-      boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)', // Una sombra suave
-      objectFit: 'cover'
-    }}
-  />
-);
 
 const ChatWidget = () => {
   const [messages, setMessages] = useState([
@@ -205,6 +192,8 @@ const ChatWidget = () => {
 
     const history = messages.map(msg => {
       const parts = [{ text: msg.content }];
+      // Se elimina el envío de imágenes anteriores en el historial para evitar 
+      // el error FUNCTION_PAYLOAD_TOO_LARGE en Vercel tras varios mensajes.
       return {
         role: msg.role === MessageRole.USER ? 'user' : 'model',
         parts
@@ -243,7 +232,7 @@ const ChatWidget = () => {
     }}>
       {/* Header */}
       <Box sx={{
-        backgroundColor: '#d45314', // bg-blue-600
+        backgroundColor: '#2563eb', // bg-blue-600
         padding: '20px', // p-5
         display: 'flex',
         alignItems: 'center',
@@ -251,9 +240,14 @@ const ChatWidget = () => {
         color: '#ffffff'
       }}>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-          {/* Aquí se incluye el nuevo Avatar */}
-          <AssistantAvatar />
-          
+          <Avatar sx={{ 
+            width: 48, 
+            height: 48, 
+            backgroundColor: '#3b82f6', 
+            border: '2px solid #60a5fa' 
+          }}>
+            <HealthAndSafetyIcon sx={{ fontSize: 28 }} />
+          </Avatar>
           <Box>
             <Typography variant="h6" sx={{ fontWeight: 'bold', fontSize: '1.125rem', lineHeight: '1.75rem' }}>
               Análisis de informe médico
@@ -261,7 +255,7 @@ const ChatWidget = () => {
             <Box sx={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
               <PulseDot />
               <Typography variant="caption" sx={{ fontSize: '0.75rem', opacity: 0.9, textTransform: 'uppercase', fontWeight: 600 }}>
-                Asistente Virtual Activa
+                Análisis Activo
               </Typography>
             </Box>
           </Box>
@@ -421,7 +415,7 @@ const ChatWidget = () => {
             borderRadius: '16px',
             px: 2,
             py: 0.5,
-            '&:focus-within': { ring: '2px solid #dbeafe' }
+            '&:focus-within': { ring: '2px solid #dbeafe' } // Simulación del ring focus de Tailwind
           }}>
             <InputBase
               value={inputValue}
