@@ -21,7 +21,7 @@ const MessageBubble = ({ message }) => {
         boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.05)', // shadow-sm
         overflow: 'hidden',
         // Cambios condicionales de diseño según el rol
-        backgroundColor: isUser ? '#2563eb' : '#ffffff', // bg-blue-600 : bg-white
+        backgroundColor: isUser ? '#1d4ed8' : '#ffffff', // bg-blue-600 : bg-white
         color: isUser ? '#ffffff' : '#1e293b', // text-white : text-slate-800
         borderBottomRightRadius: isUser ? 0 : '16px', // rounded-br-none
         borderBottomLeftRadius: isUser ? '16px' : 0, // rounded-bl-none

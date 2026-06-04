@@ -53,7 +53,7 @@ const BounceDot = styled('span')(({ delay }) => ({
 const AssistantAvatar = () => (
   <Avatar 
     alt="Asistente Virtual" 
-    src="/images/pimy.PNG" // Reemplaza esto con la ruta real a tu imagen
+    src="/images/pimy.png" // Reemplaza esto con la ruta real a tu imagen
     sx={{ 
       width: 82, // Un poco más grande para el header
       height: 82, 
@@ -438,11 +438,11 @@ const ChatWidget = () => {
                 p: '10px',
                 borderRadius: '12px',
                 transition: 'all 0.2s',
-                backgroundColor: (inputValue.trim() || attachedImage) && !isTyping ? '#2563eb' : '#cbd5e1',
+                backgroundColor: (inputValue.trim() || attachedImage) && !isTyping ? '#f1a10d' : '#cbd5e1',
                 color: (inputValue.trim() || attachedImage) && !isTyping ? '#ffffff' : '#f8fafc',
                 boxShadow: (inputValue.trim() || attachedImage) && !isTyping ? '0 4px 6px -1px rgba(0,0,0,0.1)' : 'none',
                 '&:hover': {
-                  backgroundColor: (inputValue.trim() || attachedImage) && !isTyping ? '#1d4ed8' : '#cbd5e1',
+                  backgroundColor: (inputValue.trim() || attachedImage) && !isTyping ? '#f1a10d' : '#cbd5e1',
                 },
                 '&.Mui-disabled': {
                   backgroundColor: '#cbd5e1',
