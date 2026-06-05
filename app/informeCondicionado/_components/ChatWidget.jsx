@@ -229,7 +229,7 @@ const ChatWidget = () => {
   return (
     <Box sx={{
       // Ajustes responsivos clave:
-      width: '100vw',                            // 100% del ancho de la pantalla móvil
+      width: '90vw',                            // 100% del ancho de la pantalla móvil
       maxWidth: { xs: '100%', sm: '896px' },     // En pantallas chicas es 100%, en desktop max-w-4xl
       height: { xs: '100vh', sm: '85vh' },       // Ocupa el 100% del alto disponible en móvil
       borderRadius: { xs: '0px', sm: '24px' },   // Sin bordes redondeados en móvil para verse nativo
