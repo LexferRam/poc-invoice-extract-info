@@ -49,16 +49,15 @@ const BounceDot = styled('span')(({ delay }) => ({
   animationDelay: delay || '0s',
 }));
 
-// Reemplazo del icono por el avatar de la imagen
 const AssistantAvatar = () => (
   <Avatar 
     alt="Asistente Virtual" 
-    src="/images/pimy.png" // Reemplaza esto con la ruta real a tu imagen
+    src="/images/pimy.png" 
     sx={{ 
-      width: 82, // Un poco más grande para el header
+      width: 82, 
       height: 82, 
-      border: '3px solid #fac960', // Un borde azul claro
-      boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)', // Una sombra suave
+      border: '3px solid #fac960', 
+      boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)', 
       objectFit: 'cover'
     }}
   />
@@ -115,7 +114,6 @@ const ChatWidget = () => {
           console.error("Error al comprimir la imagen:", error);
         }
       } else {
-
         const fileSizeMB = file.size / 1024 / 1024;
         if (fileSizeMB > 2.5) {
           alert("El archivo PDF es demasiado grande. Por favor, sube un documento menor a 2.5 MB para no exceder los límites del servidor.");
@@ -230,30 +228,33 @@ const ChatWidget = () => {
 
   return (
     <Box sx={{
-      width: '100%',
-      maxWidth: '896px', // max-w-4xl
-      height: '85vh',
+      // Ajustes responsivos clave:
+      width: '100vw',                            // 100% del ancho de la pantalla móvil
+      maxWidth: { xs: '100%', sm: '896px' },     // En pantallas chicas es 100%, en desktop max-w-4xl
+      height: { xs: '100vh', sm: '85vh' },       // Ocupa el 100% del alto disponible en móvil
+      borderRadius: { xs: '0px', sm: '24px' },   // Sin bordes redondeados en móvil para verse nativo
+      boxShadow: { 
+        xs: 'none', 
+        sm: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)' 
+      },
+      border: { xs: 'none', sm: '1px solid #e2e8f0' },
+      
       display: 'flex',
       flexDirection: 'column',
       backgroundColor: '#ffffff',
-      borderRadius: '24px', // rounded-3xl
-      boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)', // shadow-xl
-      border: '1px solid #e2e8f0', // border-slate-200
       overflow: 'hidden'
     }}>
       {/* Header */}
       <Box sx={{
-        backgroundColor: '#d45314', // bg-blue-600
-        padding: '20px', // p-5
+        backgroundColor: '#d45314', 
+        padding: '20px', 
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'between',
         color: '#ffffff'
       }}>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-          {/* Aquí se incluye el nuevo Avatar */}
           <AssistantAvatar />
-          
           <Box>
             <Typography variant="h6" sx={{ fontWeight: 'bold', fontSize: '1.125rem', lineHeight: '1.75rem' }}>
               Análisis de informe médico
@@ -274,11 +275,11 @@ const ChatWidget = () => {
         sx={{
           flex: 1,
           overflowY: 'auto',
-          padding: '16px', // p-4
-          backgroundColor: '#f8fafc', // bg-slate-50
+          padding: '16px', 
+          backgroundColor: '#f8fafc', 
           display: 'flex',
           flexDirection: 'column',
-          gap: '8px', // space-y-2
+          gap: '8px', 
           position: 'relative'
         }}
       >
@@ -286,7 +287,6 @@ const ChatWidget = () => {
           <MessageBubble key={msg.id} message={msg} />
         ))}
         
-        {/* Indicador de escritura */}
         {isTyping && (
           <Box sx={{ display: 'flex', justifyContent: 'flex-start', mb: 2 }}>
             <Box sx={{
@@ -341,7 +341,6 @@ const ChatWidget = () => {
 
       {/* Input Area */}
       <Box sx={{ padding: '16px', backgroundColor: '#ffffff', borderTop: '1px solid #f1f5f9' }}>
-        {/* Image/PDF Preview */}
         {attachedImage && (
           <Box sx={{ mb: 1.5, position: 'relative', display: 'inline-block' }}>
             {attachedImage.startsWith('data:application/pdf') ? (
