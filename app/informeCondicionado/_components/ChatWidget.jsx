@@ -275,6 +275,7 @@ const ChatWidget = () => {
         sx={{
           flex: 1,
           overflowY: 'auto',
+          borderRadius: '16px',
           padding: '16px', 
           backgroundColor: '#f8fafc', 
           display: 'flex',
